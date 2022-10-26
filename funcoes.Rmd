@@ -17,4 +17,3 @@ head(iris, 2)
 head(n = 22) # Mensagem de erro por não encontrar o argumento obrigatório
 
 ```
-
