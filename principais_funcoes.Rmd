@@ -1,0 +1,53 @@
+---
+title: "Principais funções"
+author: "Danna da Silva E Santo"
+date: "2022-10-26"
+---
+
+```{r}
+# Head e Tail
+
+esoph
+
+# default 6 linhas
+head(esoph)   # Retorna os primeiros registros da coluna de dados (6 linhas)
+tail(esoph)   # Retorna os ultimos registos da coluna de dados (6 linhas)
+
+# 10 linhas 
+head(esoph, n = 10)   # Definindo a quantidade de linhas que devem ser retornadas
+```
+
+```{r}
+# Dimensões 
+
+dim(esoph)    # Retorna o número de linhas e de colunas
+dim(esoph)[1] # Retorna a quantidade de linhas
+dim(esoph)[2] # Retorna a quantidade de colunas
+```
+
+```{r}
+# Comprimento
+length(islands)  # Se usar com objeto bidimensional vai retornar a quantidade de colunas
+```
+
+```{r}
+# Nome de colunas
+colnames(esoph)  # Retorna o nome das colunas 
+```
+
+```{r}
+# Nome de linhas
+rownames(esoph) # Retorna o número das linhas 
+```
+
+```{r}
+# Resumo 
+summary(esoph)  # Retorna resumos
+```
+
+```{r}
+# Escolhe arquivo
+x = file.choose()  # Abre a caixa de dialogo pra carregar algum arquivo
+x
+```
+
