@@ -1,0 +1,88 @@
+---
+title: "Estrutura de dados"
+author: "Danna da Silva E Santo"
+date: "2022-10-26"
+output: html_document
+---
+
+```{r}
+# Vetores
+
+X = c(1, 2, 3, 4, 5, 6)  # Sempre do mesmo tipo
+X
+X [1]           # Acessando a posição um
+X [1] = 10      # Alterando o valor da posição 1 
+x [1]
+```
+
+```{r}
+#Vetores de outros tipos 
+
+Y = c("a", "b", "c", "d")   # Vetor tipo texto
+Y
+Z = c(1L, 2L, 3L)       # Vetor do tipo inteiro 
+Z
+class (Z)
+```
+
+```{r}
+# Matrizes 
+
+VaDeaths
+colnames(VADeaths)  # Nome das colunas
+rownames(VADeaths)  # Nome das linhas 
+
+# Apenas a coluna 1
+VADeaths[,1]    # Acessando os dados da coluna 1
+
+# Somente a linha 1
+VADeaths[1,]    # Acessando os dados da linha 1
+
+# Linhas de 1 até 3 (: significa intervalos)
+VADeaths[1:3,]  # Acessando os dados da linha 1 até a linha 3
+
+# Acessando apenas as linhas desejadas
+VADeaths[c(1, 3, 5),]
+```
+
+```{r}
+# Data Frame
+
+longley
+
+# Funciona como Matriz 
+longley[,1:3]     # Todas as colunas do 1 até 3
+longley[1:4,1:3]  # Todas as linhas do 1 até 4 e todas as colunas do 1 até 3
+
+# Para acessar a coluna, utilize o cifrão ($)
+longley$Unemployed
+
+# Ou nome 
+longley['Unemployed']
+
+```
+
+```{r}
+# Listas
+
+ability.cov
+
+# Acessando elementos
+ability.cov$cov
+ability.cov[1]
+
+# Verificando os objetos diferents 
+class(ability.cov$cov)
+class(ability.cov$center)
+
+# Acessando o elemento dentro da lista
+ability.cov$cov[,1:3]
+```
+
+```{r}
+# Fatores
+
+state.region  # Ordem de grandeza com variáveis categóricas 
+
+```
+

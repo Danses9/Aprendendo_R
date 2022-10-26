@@ -1,0 +1,20 @@
+---
+title: "Funções"
+author: "Danna da Silva E Santo"
+date: "2022-10-26"
+output: html_document
+---
+
+```{r}
+getwt()  # Informando ao R que estou excecutando uma função
+         # É necessário passar os parâmetros sempre entre parenteses 
+
+# Sem parenteses
+sd  # Calcula o desvio padrão 
+head(x = iris, n = 2)
+head(iris)
+head(iris, 2)
+head(n = 22) # Mensagem de erro por não encontrar o argumento obrigatório
+
+```
+

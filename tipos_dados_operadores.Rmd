@@ -1,0 +1,51 @@
+--------------------------------------------------------------------------------
+title: "Tipos de dados e operadores"
+output: html_document
+date: "2022-10-26"
+Autor: Danna Silva E Santo
+--------------------------------------------------------------------------------
+
+```{r}
+# Declaração implicita numérico
+
+delta = 8
+class(delta) # Verificando o tipo
+```
+
+```{r}
+# L declara como inteiro
+
+delta = 8L
+class(delta)
+```
+
+```{r}
+# Operações matemáticas
+
+c = 2
+d = 4
+(c + d) * d
+e = (c + d) *d
+e
+```
+
+```{r}
+# Outros tipos
+
+logico = TRUE
+logico = F
+logico = T
+caractere = "Texto"
+caractere = 'Texto'
+class(logico)
+```
+
+```{r}
+# Testes lógicos 
+
+a = 1
+b = 2
+a < b  # Menor que
+a == b # Igual à
+```
+
