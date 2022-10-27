@@ -1,0 +1,210 @@
+---
+title: "Limpeza e tratamento de dados"
+author: "Danna da Silva E Santo"
+date: "2022-10-26"
+output: html_document
+---
+
+```{r}
+# Importa dados, string vazio como NA, string como fatores
+
+dados = read.csv("Churn.csv", sep = ";", na.strings = "", stringsAsFactors = T)
+head(dados)
+summary(dados)
+```
+
+```{r}
+# Colunas 
+
+# Renomeando as colunas 
+colnames(dados) = c("Id", "Score", "Estado", "Genero", "Idade", "Patrimonio", "Saldo", "Produtos", "TemCartCredito", "Ativo", "Salario", "Saiu")
+
+head(dados)
+```
+
+```{r}
+# Explorar dados e colunas categóricas 
+
+# Estados
+counts = table(dados$Estado) # Gerando uma contagem dos dados categóricos (table cria um sumário)
+barplot(counts, main = "Estados", xlab = "Estados") # Gerando um gráfico de barras passando titulo e vaor 
+
+# Gênero
+counts = table(dados$Genero)  # Gerando uma contagem dos dados categóricos
+barplot(counts, main = "Gêneros", xlab = "Gêneros") # Gerando um gráfico
+```
+
+```{r}
+# Explorar colunas númericas 
+
+# Score
+summary(dados$Score) # Um resumo estatistico
+boxplot(dados$Score) # Mostra como os dados estão distribuidos
+hist(dados$Score)    # Histograma 
+```
+
+```{r}
+# Idade
+
+summary(dados$Idade) # Resumo estatistico (Sumário)
+boxplot(dados$Idade) # Distribuição dos dados
+hist(dados$Idade)    # Histograma 
+```
+
+```{r}
+# Saldo
+
+summary(dados$Saldo) # Resumo estatistico (Sumário)
+boxplot(dados$Saldo) # Distribuição dos dados
+hist(dados$Saldo)    # Histograma 
+```
+
+```{r}
+# Salário
+
+summary(dados$Salario) # Resumo estatistico (Sumário)
+boxplot(dados$Salario) # Distribuição dos dados 
+boxplot(dados$Salario, outline = F)
+```
+
+```{r}
+# Valores faltantes - NAS         # Acessando o objeto (dados), o colchete define as linhas
+                                  # e colunas que quero visualizar 
+dados[!complete.cases(dados),]    # Trás todas as linhas que estão incompletas 
+```
+
+```{r}
+# Salários
+
+# Tratar salários removendo o NA e vizualizar a mediana
+median(dados$Salario, na.rm = T)
+
+# Atribuindo a mediana nos NAs
+dados[is.na(dados$Salario),]$Salario = median(dados$Salario, na.rm = T)
+
+# Buscando NAs no salário para checarmos o resultado final
+dados[!complete.cases(dados$Salario),]
+
+```
+
+```{r}
+# Corrigindo a falta de padronização em Gênero
+
+# Verificando valores
+unique(dados$Genero)  # Retornando o valor unico de cada Gênero
+summary(dados$Genero) # Resumoe estatistico (Sumário)
+
+# Transformando F em Feminino e M em Masculino
+
+# Acessando linhs e colunas, se uma das condições forem verdairas o Gênero é subscrito
+dados[is.na(dados$Genero) | dados$Genero == "M" ,]$Genero = "Masculino" 
+dados[dados$Genero == "F" | ddos$Genero == "Fem",]$Genero = "Feminino"
+
+# Visualizando os resultados
+summary(dados$Genero)
+
+# Removendo os fatores não utilizados (F, M e Fem)
+dados$Genero = factor(dados$Genero)
+
+# Visualizar
+summary(dados$Genero)
+```
+
+```{r}
+# Idades fora de dominio
+
+Summary(dados$Idade) #Visualização
+
+# Fora do dominio, numérico - ver idades anormais
+
+# Filtrando os dados, a idade maior que 0 ou idade maior ou igual a 110 
+#vai trazer a coluna idade
+dados[dados$Idade < 0 | dados$Idade > 110 ,]$Idade
+
+#Sem idade NAs
+dados[is.na(dados$Idade),]
+
+# opção de preencher com a mediana
+median(dados$Idade) # Calculando a mediana 
+
+# Substituição 
+#Filtrando os três registros e atribuindo a coluna idade a mediana de idade
+dados[dados$Idade < 0 | dados$Idade > 110 ,]$Idade = median(dados$Idade)
+
+# Checando novamente se há idades anormais
+dados[dados$Idade < 0 | dados$Idade > 110 ,]
+summary(dados$Idade)
+```
+
+```{r}
+# Dados duplicados 
+
+# Buscando duplicados pelo ID 
+
+# Pegando o conjunto de dados e verificando se existe a função duplicado passando a 
+# coluna de idenfificação dos dados, sempre a esquerda da virgula
+x = dados[duplicated(dados$Id),]
+x
+
+# O ID 81 está duplicado, sendo assim vamos excluir pelo ID
+dados = dados[-c(82),]
+
+# Buscando a linha duplicada
+dados[dados$Id == x$Id ,]
+
+# Verificando novamente 
+x = dados[duplicated(dados$Id) ,]
+x
+```
+
+```{r}
+# Estado fora do dominio 
+
+# Fora do dominio categórico 
+unique(dados$Estado)  #Retornando o valor unico de cada Gênero
+summary(dados$Estado) # Resumo estatistico
+
+# Preenchendo com Moda RS
+
+# Coletando os dados, dados de todos os Estado e pegaremos todos os estados 
+# com exceção dos que estão dentro. E apenas a colula Estado eu atribuo o RS
+dados[!dados$Estado %in% c("RS", "SC", "PR"), ]$Estado = "RS"
+summary(dados$Estado)
+
+# Removendo fatores não utilizados (RP, TD, SP)
+dados$Estado = factor(dados$Estado)
+
+#Visualizando o resultado
+summary(dados$Estado)
+```
+
+```{r}
+# Outliers (vALORES FORA DO PADRÃO)
+
+# Criando um parametro com desvio padrão (Dados distantes da Média)
+
+# Calculando o desvio padrão do dado Salário, 
+desv = sd(dados$Salario, na.rm = T)
+
+# Filtrando dado salário maior e igual que duas vezes o desvio padrão
+# Retornando a coluna Salário
+dados[dados$Salario >= 2 *desv , ]$Salario
+
+# Outra maneira com resultado semelhante, sem os NAs
+boxplot(dados$Salario)
+boxplot(dados$Salario, outline = F)
+
+x = boxplot(dados$Salario)$out
+x
+
+# Atualizando todos para mediana
+median(dados$Salario)
+
+# Filtrando dado salário maior e igual que duas vezes o desvio padrão
+# Retornando a coluna Salário com a mediana
+dados[dados$Salario >= 2 *desv ,]$Salario = median(dados$Salario)
+
+# Checando se sairam os outliers
+dados[dados$Salario >= 2 *desv ,]$Salario
+```
+
